@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>YOLO + EasyOCR (Console-Equivalent Web)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 880px; margin: 24px auto; padding: 0 16px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    img { max-width: 100%; height: auto; border-radius: 8px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
+    button, input[type="file"] { font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>YOLO + EasyOCR (แบบเว็บให้ผลเหมือนคอนโซล)</h1>
+
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required />
+      <button type="submit">อัปโหลดและประมวลผล</button>
+    </form>
+    <p style="color:#666">หมายเหตุ: ไฟล์จะถูกบันทึกตรง ๆ โดยไม่ย่อ/บีบอัด เพื่อให้ผลเทียบเท่า console</p>
+  </div>
+
+  <div class="row">
+    {% if uploaded_image %}
+    <div class="card">
+      <h3>ภาพต้นฉบับ</h3>
+      <img src="{{ uploaded_image }}" alt="original">
+      <p><code>{{ uploaded_image }}</code></p>
+    </div>
+    {% endif %}
+
+    {% if result_image %}
+    <div class="card">
+      <h3>ผลลัพธ์ตรวจจับ</h3>
+      <img src="{{ result_image }}" alt="result">
+      <p><b>Digits:</b> {{ result if result else "-" }}</p>
+      <p><code>{{ result_image }}</code></p>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
